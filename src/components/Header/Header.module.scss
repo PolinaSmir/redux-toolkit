@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+  // justify-content: space-between;
+  list-style: none;
+  &Item {
+    margin: 0 10px;
+    min-width: 50px;
+  }
+}
