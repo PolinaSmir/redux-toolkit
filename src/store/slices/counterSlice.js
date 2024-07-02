@@ -19,7 +19,6 @@ const counterSlice = createSlice({
 });
 
 const { reducer, actions } = counterSlice;
-console.log(actions);
 
 // action creators
 const { increment, decrement } = actions;
