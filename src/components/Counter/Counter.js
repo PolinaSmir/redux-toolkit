@@ -1,41 +1,104 @@
 import React from "react";
 import { connect } from "react-redux";
 import { increment, decrement, setStep } from "../../store/slices/counterSlice";
+import { setLang } from "../../store/slices/langSlice";
+import CONSTANTS from "../../constants";
+
+const {
+  LANGUAGE: { EN_US, UA_UA, PL_PL, DE_DE },
+} = CONSTANTS;
+
+const translations = new Map([
+  [
+    EN_US,
+    {
+      countText: "Count",
+      stepText: "Step",
+      incrementText: "Increment",
+      decrementText: "Decrement",
+    },
+  ],
+  [
+    UA_UA,
+    {
+      countText: "Значення лiчильнику",
+      stepText: "Крок",
+      incrementText: "Збiльшити",
+      decrementText: "Зменшити",
+    },
+  ],
+  [
+    PL_PL,
+    {
+      countText: "Znaczenie licznika",
+      stepText: "ustawic krok",
+      incrementText: "zwiekzac",
+      decrementText: "zmniejszac",
+    },
+  ],
+  [
+    DE_DE,
+    {
+      countText: "Zählen",
+      stepText: "Schritt",
+      incrementText: "Zuwachs",
+      decrementText: "Dekrement",
+    },
+  ],
+]);
 
 const Counter = (props) => {
-  const { count, step, increment, decrement, setStep } = props;
+  const {
+    counter: { count, step },
+    language,
+    increment,
+    decrement,
+    setStep,
+    setLang,
+  } = props;
   console.log(props);
+
+  const translation = translations.get(language);
+
+  const { countText, stepText, incrementText, decrementText } = translation;
 
   return (
     <div>
-      <p>Count: {count}</p>
+      <select value={language} onChange={({ target: { value } }) => setLang(value)}>
+        <option value={EN_US}>English</option>
+        <option value={UA_UA}>Ukrainian</option>
+        <option value={DE_DE}>Deutsch</option>
+        <option value={PL_PL}>Polish</option>
+      </select>
+
+      <p>
+        {countText}: {count}
+      </p>
       <label>
-        Set step:
+        {stepText}:
         <input type="number" value={step} onChange={({ target: { value } }) => setStep(value)} />
       </label>
-      <p>Step: {step}</p>
-      <button onClick={() => increment()}>Increment</button>
-      <button onClick={() => decrement()}>Decrement</button>
+      {/* <p>
+        {stepText}: {step}
+      </p> */}
+      <button onClick={() => increment()}>{incrementText}</button>
+      <button onClick={() => decrement()}>{decrementText}</button>
     </div>
   );
 };
 
 function mapStateToProps(state) {
-  return state.counter;
+  return {
+    counter: state.counter,
+    language: state.lang,
+  };
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     increment: () => dispatch(increment()),
-//     decrement: () => dispatch(decrement()),
-//     setStep: ({ target: { value } }) => dispatch(setStep(value)),
-//   };
-// }
 
 const mapDispatchToProps = {
   increment,
   decrement,
   setStep,
+  setLang,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
