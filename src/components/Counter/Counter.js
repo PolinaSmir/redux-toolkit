@@ -16,7 +16,10 @@ const Counter = (props) => {
 };
 
 function mapStateToProps(state) {
-  return state;
+  return {
+    count: state.count,
+    step: state.step,
+  };
 }
 
 export default connect(mapStateToProps)(Counter);
