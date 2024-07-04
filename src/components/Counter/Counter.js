@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, setStep } from "../../store/slices/counterSlice";
-import { setLang } from "../../store/slices/langSlice";
+import * as counterActionCreators from "../../store/slices/counterSlice";
+import * as langActionCreators from "../../store/slices/langSlice";
 import CONSTANTS from "../../constants";
 import styles from "./Counter.module.scss";
 import cx from "classnames";
@@ -58,7 +58,7 @@ const Counter = (props) => {
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
 
-  const actionCreators = bindActionCreators({ increment, decrement, setLang, setStep }, dispatch);
+  const { setStep, setLang, increment, decrement } = bindActionCreators({ ...counterActionCreators, ...langActionCreators }, dispatch);
 
   const translation = translations.get(language);
 
@@ -71,7 +71,7 @@ const Counter = (props) => {
 
   return (
     <div className={className}>
-      <select value={language} onChange={({ target: { value } }) => actionCreators.setLang(value)}>
+      <select value={language} onChange={({ target: { value } }) => setLang(value)}>
         <option value={EN_US}>English</option>
         <option value={UA_UA}>Ukrainian</option>
         <option value={DE_DE}>Deutsch</option>
@@ -83,13 +83,13 @@ const Counter = (props) => {
       </p>
       <label>
         {stepText}:
-        <input type="number" value={step} onChange={({ target: { value } }) => actionCreators.setStep(value)} />
+        <input type="number" value={step} onChange={({ target: { value } }) => setStep(value)} />
       </label>
       {/* <p>
         {stepText}: {step}
       </p> */}
-      <button onClick={() => actionCreators.increment()}>{incrementText}</button>
-      <button onClick={() => actionCreators.decrement()}>{decrementText}</button>
+      <button onClick={() => increment()}>{incrementText}</button>
+      <button onClick={() => decrement()}>{decrementText}</button>
     </div>
   );
 };
