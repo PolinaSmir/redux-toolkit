@@ -3,9 +3,15 @@ import * as API from "api";
 
 const SLICE_NAME = "users";
 
-const getUsers = createAsyncThunk(`${SLICE_NAME}/getUsers`, async (arg) => {
-  console.log(`arg is ${arg}`);
-  return API.getUsers();
+const getUsers = createAsyncThunk(`${SLICE_NAME}/getUsers`, async (arg, thunkAPI) => {
+  try {
+    const { data: users } = await API.getUsers();
+
+    return users;
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.message);
+  }
 });
 
 const initialState = {
