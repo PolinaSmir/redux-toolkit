@@ -7,7 +7,7 @@ const UserList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers("Hello from userList"));
   }, []);
 
   return (
