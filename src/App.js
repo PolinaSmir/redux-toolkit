@@ -9,8 +9,8 @@ function App() {
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route path="/counter" component={CounterPage} />
-      <Route path="*" component={NotFoundPage} />
       <Route path="/users" component={UsersPage} />
+      <Route path="*" component={NotFoundPage} />
     </Switch>
   );
 }
